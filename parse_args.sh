@@ -12,12 +12,6 @@ while [[ $# -gt 0 ]]; do
         --uninstall)
             action="uninstall"
             ;;
-        --up)
-            action="up"
-            ;;
-        --down)
-            action="down"
-            ;;
         --refresh)
             action="refresh"
             ;;
