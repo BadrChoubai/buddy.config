@@ -1,0 +1,39 @@
+[env]
+TERM = "xterm-256color"
+
+[terminal]
+shell = { program = "/usr/bin/tmux", args = ["-c", "zsh"] }
+
+[window]
+dimensions = { columns = 2, lines = 2 }
+padding = { x = 30, y = 30 }
+startup_mode = "Fullscreen"
+opacity = 0.85
+
+[scrolling]
+history = 300
+multiplier = 3
+
+[font]
+size = 20
+offset = { x = 1, y = 3 }
+
+[keyboard]
+bindings = [
+	{ key = "V", mods = "Control|Shift", action = "Paste" },
+	{ key = "C", mods = "Control|Shift", action = "Copy" }
+]
+
+[colors.primary]
+background = "#221f22"
+foreground = "#ffffff"
+
+[colors.normal]
+cyan = "#78dce8"
+magenta = "#ff6188"
+yellow = "#ffd866"
+red = "#ff6188"
+blue = "#fc9867"
+green = "#a9dc76"
+white = "#78dce8"
+

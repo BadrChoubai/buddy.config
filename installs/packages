@@ -1,0 +1,29 @@
+#!/usr/bin/env bash
+
+sudo apt -y update
+
+pkgs=(
+    git 
+)
+
+snaps=(
+    alacritty
+    goland
+    datagrip
+    firefox
+)
+
+(
+    for p in ${pkgs[@]}
+    do
+        sudo apt install -y $p
+    done
+)
+
+(
+    for s in ${snaps[@]}
+
+    do
+        sudo snap install $s --classic
+    done
+)
