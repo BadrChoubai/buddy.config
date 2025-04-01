@@ -1,0 +1,16 @@
+export XDG_CONFIG_HOME=$HOME/.config
+VIM="nvim"
+
+export GOPATH=$HOME/.local/go
+export GIT_EDITOR=$VIM
+
+appendPath() {
+    if [[ "$PATH" != *"$1"* ]]; then
+        export PATH=$PATH:$1
+    fi
+}
+
+alias vim="$VIM"
+
+appendPath /usr/local/go/bin
+appendPath $HOME/.dotnet
