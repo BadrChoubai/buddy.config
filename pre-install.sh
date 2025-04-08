@@ -5,15 +5,21 @@
 set -e
 
 log "INFO" "installing pre-requisite packages"
-
-sudo apt update
-sudo apt upgrade -y
-
-sudo apt autoremove -y
+if [[ "$DRY_RUN" == 0 ]]; then 
+    sudo apt update
+    sudo apt upgrade -y
+else
+    log "INFO" "apt update, apt upgrade would run"
+fi
 
 packages=(git)
 
 for pkg in "${packages[@]}"; do
-    sudo apt install -y "$pkg"
+    if [[ "$DRY_RUN" == 0 ]]; then
+        sudo apt install -y "$pkg"
+    else 
+        log "INFO" "Would install $pkg"
+    fi
 done
+
 

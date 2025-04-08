@@ -4,7 +4,7 @@ script_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" &> /dev/null && pwd)"
 
 # Source logging and argument parsing
 . "$script_dir/parse_args.sh" "$@"
-. "$script_dir/log.sh" "$DRY_RUN"
+. "$script_dir/log.sh"
 
 not=("docker" "packages")
 not_pattern="$(IFS='|'; echo "${not[*]}")"
@@ -129,6 +129,8 @@ if [[ "$action" == "install" ]]; then
     for n in "${not[@]}"; do
         log "WARN" "Not Modifying: $n"
     done
+
+    . "$script_dir/pre-install.sh"
 
     install 
     exit
