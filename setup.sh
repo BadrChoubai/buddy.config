@@ -119,18 +119,25 @@ refresh() {
     up
 }
 
-# Log skipped packages
-for n in "${not[@]}"; do
-    log "Not Modifying: $n"
-done
-
 # Execute the requested action
 if [[ "$action" == "install" ]]; then
     prompt $action
+    
+    # Log skipped packages
+    for n in "${not[@]}"; do
+        log "Not Modifying: $n"
+    done
+
     install 
     exit
 elif [[ "$action" == "uninstall" ]]; then
     prompt $action
+
+    # Log skipped packages
+    for n in "${not[@]}"; do
+        log "Not Modifying: $n"
+    done
+
     uninstall 
     exit
 elif [[ "$action" == "refresh" ]]; then

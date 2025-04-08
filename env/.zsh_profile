@@ -10,7 +10,14 @@ appendPath() {
     fi
 }
 
+prependPath() {
+    if [[ "$PATH" != *"$1"* ]]; then
+        export PATH=$1:$PATH
+    fi
+}
+
 alias vim="$VIM"
 
 appendPath /usr/local/go/bin
 appendPath $HOME/.dotnet
+prependPath $HOME/.local/npm/bin
