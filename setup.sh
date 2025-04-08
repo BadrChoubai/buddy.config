@@ -3,8 +3,8 @@
 script_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" &> /dev/null && pwd)"
 
 # Source logging and argument parsing
-. "$script_dir/log.sh"
 . "$script_dir/parse_args.sh" "$@"
+. "$script_dir/log.sh" "$DRY_RUN"
 
 not=("docker" "packages")
 not_pattern="$(IFS='|'; echo "${not[*]}")"
@@ -18,13 +18,13 @@ uninstalls=$(find "$script_dir/uninstalls" -mindepth 1 -maxdepth 1 -executable \
     | grep -Ev "/($not_pattern)$")
 
 if [[ -z "$XDG_CONFIG_HOME" ]]; then
-    log "No XDG_CONFIG_HOME found, using ~/.config"
+    log "WARN" "No XDG_CONFIG_HOME found, using ~/.config"
     export XDG_CONFIG_HOME="$HOME/.config"
 fi
 
 prompt() {
     if [[ "$action" == "install" ]]; then
-        log "You are about to install your environment:"
+        log "INFO" "You are about to install your environment:"
 
         echo ""
         echo "ARGS:"
@@ -35,11 +35,11 @@ prompt() {
         # Confirmation prompt
         read -p "Continue? (y/n) " CONFIRM
         if [[ ! "$CONFIRM" =~ ^[Yy]$ ]]; then
-            log "Installation aborted."
+            log "INFO" "Installation aborted."
             exit 1
         fi
     elif [[ "$action" == "uninstall" ]]; then
-        log "You are about to uninstall your environment:"
+        log "INFO" "You are about to uninstall your environment:"
 
         echo ""
         echo "ARGS:"
@@ -50,7 +50,7 @@ prompt() {
         # Confirmation prompt
         read -p "Continue? (y/n) " CONFIRM
         if [[ ! "$CONFIRM" =~ ^[Yy]$ ]]; then
-            log "Uninstallation aborted."
+            log "INFO" "Uninstallation aborted."
             exit 1
         fi
         
@@ -58,53 +58,55 @@ prompt() {
 }
 
 update_files() {
-    log "Copying files from: $1"
+    log "INFO" "Copying files from: $1"
 
     pushd "$1" &> /dev/null
     for c in $(find . -mindepth 1 -maxdepth 1 -type d); do
         directory=${2%/}/${c#./}
-        log "Removing: $directory"
-        [[ $dry_run == "0" ]] && rm -rf "$directory"
+        log "INFO" "Removing: $directory"
+        [[ $DRY_RUN == "0" ]] && rm -rf "$directory"
         
-        log "Copying: $c to $2"
-        [[ $dry_run == "0" ]] && cp -r "./$c" "$2"
+        log "INFO" "Copying: $c to $2"
+        [[ $DRY_RUN == "0" ]] && cp -r "./$c" "$2"
     done
     popd &> /dev/null
 }
 
 copy() {
-    log "Removing: $2"
-    [[ $dry_run == "0" ]] && rm -f "$2"
+    log "INFO" "Removing: $2"
+    [[ $DRY_RUN == "0" ]] && rm -f "$2"
     
-    log "Copying: $1 to $2"
-    [[ $dry_run == "0" ]] && cp "$1" "$2"
+    log "INFO" "Copying: $1 to $2"
+    [[ $DRY_RUN == "0" ]] && cp "$1" "$2"
 }
 
 install() {
-    log "Installing packages and linking environment"
+    log "INFO" "Installing packages and linking environment"
     while IFS= read -r s; do
-        log "Running script: $s"
-        [[ "$dry_run" == "0" ]] && "$s"
+        log "INFO" "Running script: $s"
+        [[ "$DRY_RUN" == "0" ]] && "$s"
     done <<< "$installs"
 }
 
 uninstall() {
-    log "Uninstalling packages and removing environment"
+    log "INFO" "Uninstalling packages and removing environment"
     while IFS= read -r s; do
-        log "Running script: $s"
-        [[ "$dry_run" == "0" ]] && "$s"
+        log "INFO" "Running script: $s"
+        [[ "$DRY_RUN" == "0" ]] && "$s"
     done <<< "$uninstalls"
 
-    [[ "$dry_run" == "0" ]] && sudo apt -y autoremove
-    [[ "$dry_run" == "0" ]] && sudo apt-get -y autoremove
+    [[ "$DRY_RUN" == "0" ]] && sudo apt -y autoremove
+    [[ "$DRY_RUN" == "0" ]] && sudo apt-get -y autoremove
 }
 
 down() {
-    log "Removing existing configuration files..."
-    [[ "$dry_run" == "0" ]] && rm -f "$HOME/.alacritty.toml" "$HOME/.aliases" "$HOME/.bashrc" "$HOME/.zshrc"
+    log "INFO" "Removing existing configuration files..."
+    [[ "$DRY_RUN" == "0" ]] && rm -f "$HOME/.alacritty.toml" "$HOME/.aliases" "$HOME/.bashrc" "$HOME/.zshrc"
 }
 
 up() {
+    log "INFO" "copying configuration files to $XDG_CONFIG_HOME..."
+
     update_files "$(pwd)/env/.config" "$XDG_CONFIG_HOME"
 
     copy "$(pwd)/env/.aliases" "$HOME/.aliases"
@@ -114,7 +116,7 @@ up() {
 }
 
 refresh() {
-    log "Refreshing configuration files only"
+    log "INFO" "Refreshing configuration files only"
     down
     up
 }
@@ -125,7 +127,7 @@ if [[ "$action" == "install" ]]; then
     
     # Log skipped packages
     for n in "${not[@]}"; do
-        log "Not Modifying: $n"
+        log "WARN" "Not Modifying: $n"
     done
 
     install 
@@ -135,7 +137,7 @@ elif [[ "$action" == "uninstall" ]]; then
 
     # Log skipped packages
     for n in "${not[@]}"; do
-        log "Not Modifying: $n"
+        log "WARN" "Not Modifying: $n"
     done
 
     uninstall 

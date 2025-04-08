@@ -1,13 +1,13 @@
 #!/bin/env bash
 
 # Default values
-dry_run="0"
+DRY_RUN="0"
 action="install"
 
 while [[ $# -gt 0 ]]; do
     case "$1" in
         --dry)
-            dry_run="1"
+            DRY_RUN="1"
             ;;
         --uninstall)
             action="uninstall"
@@ -23,4 +23,4 @@ while [[ $# -gt 0 ]]; do
 done
 
 # Export variables so they can be used in setup
-export dry_run action
+export DRY_RUN action
