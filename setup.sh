@@ -69,24 +69,32 @@ copy() {
     [[ $DRY_RUN == "0" ]] && cp "$1" "$2"
 }
 
-install() {
-    log "INFO" "Installing packages and linking environment"
+execute_action() {
+    local action_type=$1
+    local scripts=$2
+
+    log "INFO" "$action_type packages and linking environment"
+
     while IFS= read -r s; do
         log "INFO" "Running script: $s"
         [[ "$DRY_RUN" == "0" ]] && "$s"
-    done <<< "$installs"
+    done <<< "$scripts"
+
+}
+
+install() {
+    execute_action "Installing" "$installs"
 }
 
 uninstall() {
-    log "INFO" "Uninstalling packages and removing environment"
-    while IFS= read -r s; do
-        log "INFO" "Running script: $s"
-        [[ "$DRY_RUN" == "0" ]] && "$s"
-    done <<< "$uninstalls"
+    execute_action "Uninstalling" "$uninstalls"
 
-    [[ "$DRY_RUN" == "0" ]] && sudo apt -y autoremove
-    [[ "$DRY_RUN" == "0" ]] && sudo apt-get -y autoremove
+    if [[ "$DRY_RUN" == "0" ]]; then 
+        sudo apt -y autoremove
+        sudo apt-get -y autoremove
+    fi
 }
+
 
 down() {
     log "INFO" "Removing existing configuration files..."
