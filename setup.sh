@@ -49,10 +49,14 @@ update_files() {
     for c in $(find . -mindepth 1 -maxdepth 1 -type d); do
         directory=${2%/}/${c#./}
         log "INFO" "Removing: $directory"
-        [[ $DRY_RUN == "0" ]] && rm -rf "$directory"
+
+        if [[ -d "$directory" ]]; then
+            [[ $DRY_RUN == "0" ]] && rm -rf "$directory"
+        fi
         
         log "INFO" "Copying: $c to $2"
         [[ $DRY_RUN == "0" ]] && cp -r "./$c" "$2"
+
     done
     popd &> /dev/null
 }
