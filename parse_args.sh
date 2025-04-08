@@ -6,17 +6,13 @@ action="install"
 
 while [[ $# -gt 0 ]]; do
     case "$1" in
-        --dry)
-            DRY_RUN="1"
-            ;;
-        --uninstall)
-            action="uninstall"
-            ;;
-        --refresh)
-            action="refresh"
-            ;;
+        --install) action="install" ;;
+        --uninstall) action="uninstall" ;;
+        --refresh) action="refresh" ;;
+        --dry) DRY_RUN="1" ;;
         *)
             echo "Unknown argument: $1"
+            exit 1
             ;;
     esac
     shift

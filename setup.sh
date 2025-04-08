@@ -23,8 +23,8 @@ if [[ -z "$XDG_CONFIG_HOME" ]]; then
 fi
 
 prompt() {
-    if [[ "$action" == "install" ]]; then
-        log "INFO" "You are about to install your environment:"
+    if [[ "$action" == "install" || "$action" == "uninstall" ]]; then
+        log "INFO" "You are about to $action your environment:"
 
         echo ""
         echo "ARGS:"
@@ -35,27 +35,12 @@ prompt() {
         # Confirmation prompt
         read -p "Continue? (y/n) " CONFIRM
         if [[ ! "$CONFIRM" =~ ^[Yy]$ ]]; then
-            log "INFO" "Installation aborted."
+            log "INFO" "$action aborted."
             exit 1
         fi
-    elif [[ "$action" == "uninstall" ]]; then
-        log "INFO" "You are about to uninstall your environment:"
-
-        echo ""
-        echo "ARGS:"
-        echo "    MODE: \"uninstall\""
-        echo "    EXCLUDES: \"${not[*]}\""
-        echo ""
-        
-        # Confirmation prompt
-        read -p "Continue? (y/n) " CONFIRM
-        if [[ ! "$CONFIRM" =~ ^[Yy]$ ]]; then
-            log "INFO" "Uninstallation aborted."
-            exit 1
-        fi
-        
     fi
 }
+
 
 update_files() {
     log "INFO" "Copying files from: $1"
@@ -122,30 +107,27 @@ refresh() {
 }
 
 # Execute the requested action
-if [[ "$action" == "install" ]]; then
-    prompt $action
-    
-    # Log skipped packages
+if [[ "$action" == "install" || "$action" == "uninstall" || "$action" == "refresh"  ]]; then
+    prompt
     for n in "${not[@]}"; do
         log "WARN" "Not Modifying: $n"
     done
 
-    . "$script_dir/pre-install.sh"
-
-    install 
+    case "$action" in
+        install)
+            . "$script_dir/pre-install.sh"
+            install
+            ;;
+        uninstall)
+            uninstall
+            ;;
+        refresh)
+            refresh
+            ;;
+    esac
     exit
-elif [[ "$action" == "uninstall" ]]; then
-    prompt $action
-
-    # Log skipped packages
-    for n in "${not[@]}"; do
-        log "WARN" "Not Modifying: $n"
-    done
-
-    uninstall 
-    exit
-elif [[ "$action" == "refresh" ]]; then
-    refresh
-    exit
+else
+    log "ERROR" "Unknown action: $action"
+    exit 1
 fi
 
