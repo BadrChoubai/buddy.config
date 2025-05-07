@@ -1,8 +1,11 @@
 export XDG_CONFIG_HOME=$HOME/.config
 VIM="nvim"
+KUBECTL="kubectl"
 
 export GOPATH=$HOME/.local/go
+export GOBIN=$HOME/.local/bin
 export GIT_EDITOR=$VIM
+
 
 appendPath() {
     if [[ "$PATH" != *"$1"* ]]; then
@@ -16,8 +19,18 @@ prependPath() {
     fi
 }
 
+dotenv() {
+    if [[ -f .env ]]; then
+        set -o allexport
+        source .env
+        set +o allexport
+    fi
+}
+
 alias vim="$VIM"
+alias k="$KUBECTL"
 
 appendPath /usr/local/go/bin
+appendPath $GOBIN
 appendPath $HOME/.dotnet
 prependPath $HOME/.local/npm/bin
