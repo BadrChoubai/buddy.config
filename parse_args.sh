@@ -9,6 +9,7 @@ while [[ $# -gt 0 ]]; do
         --install) action="install" ;;
         --uninstall) action="uninstall" ;;
         --refresh) action="refresh" ;;
+        --help) action="help" ;;
         --dry) DRY_RUN="1" ;;
         *)
             echo "Unknown argument: $1"

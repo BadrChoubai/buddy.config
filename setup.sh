@@ -118,6 +118,32 @@ refresh() {
     up
 }
 
+help() {
+    echo ""
+    log "INFO" "Usage: $(basename "$0") [ACTION] [OPTIONS]"
+    echo ""
+    echo "Available actions:"
+    echo "  install       Install and link environment configuration and packages"
+    echo "  uninstall     Uninstall packages and remove configuration"
+    echo "  refresh       Reinstall or update configuration files only"
+    echo "  help          Show this help message"
+    echo ""
+    echo "Options:"
+    echo "  --dry-run     Show what would be done without making changes"
+    echo "  --verbose     Enable verbose logging output"
+    echo ""
+    echo "Examples:"
+    echo "  $(basename "$0") install"
+    echo "  $(basename "$0") uninstall --dry-run"
+    echo "  $(basename "$0") refresh --verbose"
+    echo ""
+    echo "Notes:"
+    echo "  - Configuration files are copied to \$XDG_CONFIG_HOME (defaults to ~/.config)."
+    echo "  - Some installers or uninstallers may require sudo privileges."
+    echo "  - The following directories are excluded from modification: ${not[*]}"
+    echo ""
+}
+
 # Execute the requested action
 if [[ "$action" == "install" || "$action" == "uninstall" || "$action" == "refresh"  ]]; then
     prompt
