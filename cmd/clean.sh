@@ -6,8 +6,8 @@ script_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." &> /dev/null && pwd)"
 
 dot_apps="$script_dir/.apps"
 dot_pkgs="$script_dir/.pkgs"
-installed_apps="$script_dir/.apps.installed"
-installed_pkgs="$script_dir/.pkgs.installed"
+installed_apps="$script_dir/.apps.lock"
+installed_pkgs="$script_dir/.pkgs.lock"
 
 DRY_RUN=0
 
@@ -16,7 +16,7 @@ for arg in "$@"; do
     case "$arg" in
         --help|-h)
             echo ""
-            log "INFO" "Usage: ./cmd/clean.sh [OPTIONS]"
+            echo "Usage: ./setup_v2 clean [OPTIONS]"
             echo ""
             echo "Removes installed apps and packages that have been removed from configuration."
             echo ""
@@ -45,6 +45,10 @@ if [[ -n "$TO_REMOVE_APPS" ]]; then
     echo "  - Snap Apps:"
     echo "$TO_REMOVE_APPS" | sed 's/^/    - /'
 fi
+if [[ -z "$TO_REMOVE_PKGS" && -z "$TO_REMOVE_APPS" ]]; then
+    log "INFO" "Nothing to remove — system is clean."
+    exit 0
+fi
 
 read -p "Continue? (y/n) " CONFIRM
 if [[ ! "$CONFIRM" =~ ^[Yy]$ ]]; then
@@ -64,10 +68,10 @@ remove_unconfigured() {
 
     echo "$to_remove" | while read -r item; do
         [[ -z "$item" ]] && continue
-        log "INFO" "Will uninstall $item ($item_type)"
         if [[ "$DRY_RUN" == "1" ]]; then
             log "INFO" "[DRY RUN] Would uninstall $item ($item_type)"
         else
+            log "INFO" "Uninstalling $item ($item_type)"
             $uninstall_cmd "$item"
         fi
     done
@@ -77,5 +81,16 @@ log "INFO" "Starting clean (removal) operation..."
 
 remove_unconfigured "$TO_REMOVE_PKGS" "sudo apt-get remove --purge -y" "package"
 remove_unconfigured "$TO_REMOVE_APPS" "sudo snap remove" "app"
+
+# ---- Update lock files ----
+if [[ "$DRY_RUN" != "1" ]]; then
+    log "INFO" "Updating lock files..."
+    # Remove uninstalled items from lock files only
+    sort "$installed_pkgs" | grep -vxFf <(echo "$TO_REMOVE_PKGS") > "$installed_pkgs.tmp" && mv "$installed_pkgs.tmp" "$installed_pkgs"
+    sort "$installed_apps" | grep -vxFf <(echo "$TO_REMOVE_APPS") > "$installed_apps.tmp" && mv "$installed_apps.tmp" "$installed_apps"
+    log "INFO" "Lock files updated."
+else
+    log "INFO" "[DRY RUN] Lock files not updated."
+fi
 
 log "INFO" "Clean complete."
