@@ -5,12 +5,14 @@ Extensible setup script to quickly commission myself a personal computing device
 ## Getting Started
 
 1. **Clone the repository:**
+
    ```sh
    git clone https://github.com/BadrChoubai/buddy.config.git
    cd buddy.config
    ```
 
 2. **Run the setup script:**
+
    ```sh
    ./setup.sh
    ```
@@ -37,10 +39,10 @@ Options:
 ## Customization
 
 - **Package Management:**  
-  The setup script reads from two files:  
-  - `.pkgs` for apt packages  
+  The setup script reads from two files:
+  - `.pkgs` for apt packages
   - `.apps` for snap packages
-  To change which packages are installed, simply edit these files and add or remove package names as needed.
+    To change which packages are installed, simply edit these files and add or remove package names as needed.
 
 - **Further Customization:**  
   You can also modify the scripts or configuration files in this repository to further personalize the environment to your preferences. Review script variables and settings before execution.
@@ -49,11 +51,11 @@ Options:
 
 ### Core Concepts
 
-- **Configuration files:**  
+- **Configuration files:**
   - `.pkgs`: List of apt packages for installation
   - `.apps`: List of snap apps for installation
 
-- **Lockfiles:**  
+- **Lockfiles:**
   - `.pkgs.lock`: Tracks which apt packages have been successfully installed
   - `.apps.lock`: Tracks which snap apps have been successfully installed
 
@@ -85,10 +87,10 @@ sort -u -o "$installed_pkgs" "$installed_pkgs"
 sort -u -o "$installed_apps" "$installed_apps"
 ```
 
-- When running the install command:  
+- When running the install command:
   1. The script reads your desired state from `.pkgs` and `.apps`.
   2. It compares these with the existing lockfiles.
-  3. Apps/packages *present in config but missing from lockfiles* are installed.
+  3. Apps/packages _present in config but missing from lockfiles_ are installed.
   4. After a successful install, their names are appended to the lockfile, ensuring the system knows what's been installed.
 
 ---
@@ -116,7 +118,7 @@ sort "$installed_apps" | grep -vxFf <(echo "$TO_REMOVE_APPS") > "$installed_apps
 - When running the clean command:
   1. It finds items currently tracked in lockfiles but no longer present in your desired configuration.
   2. These are uninstalled.
-  3. The lockfiles are then updated to *exclude* what was just removed, preserving a clean, accurate install record.
+  3. The lockfiles are then updated to _exclude_ what was just removed, preserving a clean, accurate install record.
 
 ---
 
