@@ -86,7 +86,9 @@ if [[ -f "$dot_pkgs" ]]; then
 fi
 
 # ---- Install Snap Apps ----
-install_packages "$dot_apps" "snap" "snap list" "sudo snap install --classic"
+if [[ -f "$dot_apps" ]]; then
+    install_packages "$dot_apps" "snap" "snap list" "sudo snap install --classic"
+fi
 
 log "INFO" "Installation complete."
 
