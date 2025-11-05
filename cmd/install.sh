@@ -14,7 +14,7 @@ for arg in "$@"; do
             echo "Installs all configured development tools and links configuration files."
             echo ""
             echo "Options:"
-            echo "  --dry, --dry-run   Show what would be done without making changes"
+            echo "  -n, --dry-run   Show what would be done without making changes"
             echo "  -y                 Skip confirmation prompt"
             echo "  -h, --help         Show this message"
             echo ""
