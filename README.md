@@ -20,14 +20,18 @@ Extensible setup script to quickly commission myself a personal computing device
 ## Usage
 
 ```text
-Usage: ./setup.sh <command> 
+Usage: ./setup_v2.sh <COMMAND> [OPTIONS]
 
-Installs and configures your dev environment.
+Installs and configures your development environment
 
 Available Commands:
-  install           - Install developer environment
-  version           - Print current version
-  help              - Print this message
+  clean           - Remove untracked apps and packages
+  help            - Show help message
+  install         - Install configured apps and packages
+  version         - Show version info
+
+Options:
+  -h, --help      - Print this message
 ```
 
 ## Customization
