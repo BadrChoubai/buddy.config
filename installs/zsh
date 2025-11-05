@@ -1,14 +1,28 @@
 #!/usr/bin/env bash
+set -euo pipefail
 
-sudo apt update
-sudo apt install -y zsh
-hash -r
+if ! command -v zsh &> /dev/null; then
+    echo "Installing Zsh..."
+    sudo apt update
+    sudo apt install -y zsh
+else
+    echo "Zsh already installed, skipping."
+fi
 
-sudo chsh -s $(which zsh)
+current_shell=$(getent passwd "$USER" | cut -d: -f7)
+zsh_path=$(command -v zsh)
+
+if [[ "$current_shell" != "$zsh_path" ]]; then
+    echo "Changing default shell to Zsh..."
+    sudo chsh -s "$zsh_path" "$USER"
+else
+    echo "Default shell already Zsh, skipping."
+fi
 
 if [[ ! -d "$HOME/.oh-my-zsh" ]]; then
-	sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+    echo "Installing Oh My Zsh..."
+    RUNZSH=no sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 else
-	echo "Oh My Zsh already installed, skipping."
+    echo "Oh My Zsh already installed, skipping."
 fi
 
