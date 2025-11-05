@@ -68,6 +68,12 @@ if [[ -f "$dot_pkgs" ]]; then
                     log "INFO" "[DRY RUN] Would install $pkg via apt"
                 else
                     sudo apt install -y "$pkg"
+                    # Append app name after successful install
+                    if [[ $? -eq 0 ]]; then
+                        echo "$pkg" >> .pkgs.installed
+                    else
+                        log "ERROR" "Failed to install $app"
+                    fi
                 fi
             fi
         done
@@ -86,6 +92,12 @@ if [[ -f "$dot_apps" ]]; then
                 log "INFO" "[DRY RUN] Would install $app via snap"
             else
                 sudo snap install "$app" --classic
+                # Append app name after successful install
+                if [[ $? -eq 0 ]]; then
+                    echo "$app" >> .apps.installed
+                else
+                    log "ERROR" "Failed to install $app"
+                fi
             fi
         fi
     done
