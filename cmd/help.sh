@@ -10,9 +10,11 @@ Installs and configures your dev environment.
 
 Available Commands:
   install           - Install developer environment
+  version           - Print version
+  help              - Print this message
 
 Options:
-  -h, --help        - Show this message
+  -h, --help        - Print this message
 
 EOF
 
