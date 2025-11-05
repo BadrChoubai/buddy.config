@@ -2,7 +2,7 @@
 set -euo pipefail
 
 # Default values
-action="install"  # default action
+action="help"  # default action
 ACTION_SET=0
 CMD_ARGS=()
 DRY_RUN=0
@@ -27,7 +27,7 @@ while [[ $# -gt 0 ]]; do
             shift
             ;;
         --version)
-            action="--version"
+            action="version"
             ACTION_SET=1
             shift
             ;;
