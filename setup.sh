@@ -6,14 +6,10 @@ script_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" &> /dev/null && pwd)"
 . "$script_dir/parse_args.sh" "$@"
 . "$script_dir/log.sh"
 
-not=("docker" "packages")
+not=("")
 not_pattern="$(IFS='|'; echo "${not[*]}")"
 
 installs=$(find "$script_dir/installs" -mindepth 1 -maxdepth 1 -executable \
-    | sort \
-    | grep -Ev "/($not_pattern)$")
-
-uninstalls=$(find "$script_dir/uninstalls" -mindepth 1 -maxdepth 1 -executable \
     | sort \
     | grep -Ev "/($not_pattern)$")
 
@@ -23,7 +19,7 @@ if [[ -z "$XDG_CONFIG_HOME" ]]; then
 fi
 
 prompt() {
-    if [[ "$action" == "install" || "$action" == "uninstall" ]]; then
+    if [[ "$action" == "install" ]]; then
         log "INFO" "You are about to $action your environment:"
 
         echo ""
@@ -86,19 +82,9 @@ install() {
     execute_action "Installing" "$installs"
 }
 
-uninstall() {
-    execute_action "Uninstalling" "$uninstalls"
-
-    if [[ "$DRY_RUN" == "0" ]]; then 
-        sudo apt -y autoremove
-        sudo apt-get -y autoremove
-    fi
-}
-
-
 down() {
     log "INFO" "Removing existing configuration files..."
-    [[ "$DRY_RUN" == "0" ]] && rm -f "$HOME/.alacritty.toml" "$HOME/.aliases" "$HOME/.bashrc" "$HOME/.zshrc"
+    [[ "$DRY_RUN" == "0" ]] && rm -f "$HOME/.alacritty.toml" "$HOME/.zshrc"
 }
 
 up() {
@@ -106,8 +92,6 @@ up() {
 
     update_files "$(pwd)/env/.config" "$XDG_CONFIG_HOME"
 
-    copy "$(pwd)/env/.aliases" "$HOME/.aliases"
-    copy "$(pwd)/env/.bashrc" "$HOME/.bashrc"
     copy "$(pwd)/env/.zshrc" "$HOME/.zshrc"
     copy "$(pwd)/env/.zsh_profile" "$HOME/.zsh_profile"
 }
@@ -145,7 +129,7 @@ help() {
 }
 
 # Execute the requested action
-if [[ "$action" == "install" || "$action" == "uninstall" || "$action" == "refresh"  ]]; then
+if [[ "$action" == "install" || "$action" == "uninstall" || "$action" == "refresh" || "$action" == "help"  ]]; then
     prompt
     for n in "${not[@]}"; do
         log "WARN" "Not Modifying: $n"
@@ -161,6 +145,9 @@ if [[ "$action" == "install" || "$action" == "uninstall" || "$action" == "refres
             ;;
         refresh)
             refresh
+            ;;
+        help)
+            help
             ;;
     esac
     exit
