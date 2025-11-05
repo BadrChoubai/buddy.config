@@ -9,26 +9,24 @@ dot_pkgs="$script_dir/.pkgs"
 installed_apps="$script_dir/.apps.lock"
 installed_pkgs="$script_dir/.pkgs.lock"
 
-DRY_RUN=0
+usage() {
+    echo ""
+    echo "Usage: ./setup_v2 clean [OPTIONS]"
+    echo ""
+    echo "Removes installed apps and packages that have been removed from configuration."
+    echo ""
+    echo "Options:"
+    echo "  -n, --dry-run   Show what would be done without making changes"
+    echo "  -h, --help      Show this message"
+    echo ""
+    exit 0
+}
 
 # ---- Parse options ----
 for arg in "$@"; do
     case "$arg" in
-        --help|-h)
-            echo ""
-            echo "Usage: ./setup_v2 clean [OPTIONS]"
-            echo ""
-            echo "Removes installed apps and packages that have been removed from configuration."
-            echo ""
-            echo "Options:"
-            echo "  -n, --dry-run   Show what would be done without making changes"
-            echo "  -h, --help      Show this message"
-            echo ""
-            exit 0
-            ;;
-        --dry-run|-n)
-            DRY_RUN=1
-            ;;
+        -h|-help) usage ;;
+        -n|--dry-run) DRY_RUN=1 ;;
     esac
 done
 

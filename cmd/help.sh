@@ -1,21 +1,33 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+# Declare an associative array
+declare -A cmds_usage=(
+    [clean]="Remove untracked apps and packages"
+    [help]="Show help message"
+    [version]="Show version info"
+    [install]="Install configured apps and packages"
+)
+
 # --- Output help message ---
-cat <<EOF
+usage() {
+    echo ""
+    echo "Usage: ./setup_v2.sh <COMMAND> [OPTIONS]"
+    echo ""
+    echo "Installs and configures your development environment"
+    echo ""
+    echo "Available Commands:"
 
-Usage: ./setup.sh <command> [options]
+    # Print commands and their descriptions
+    for cmd in $(printf "%s\n" "${!cmds_usage[@]}" | sort); do
+        printf "  %-15s - %s\n" "$cmd" "${cmds_usage[$cmd]}"
+    done
 
-Installs and configures your dev environment.
+    echo ""
+    echo "Options:"
+    echo "  -h, --help      - Print this message"
+    echo ""
+    exit 0
+}
 
-Available Commands:
-  clean             - Uninstall dependencies that were removed from configuration
-  install           - Install dependencies from configuration
-  version           - Print version
-  help              - Print this message
-
-Options:
-  -h, --help        - Print this message
-
-EOF
-
+usage

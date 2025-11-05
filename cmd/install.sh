@@ -9,28 +9,26 @@ dot_pkgs="$script_dir/.pkgs"
 installed_apps="$script_dir/.apps.lock"
 installed_pkgs="$script_dir/.pkgs.lock"
 
+usage() {
+    echo ""
+    echo "Usage: ./setup_v2.sh install [OPTIONS]"
+    echo ""
+    echo "Installs all configured apps and packages that are missing from the system."
+    echo ""
+    echo "Options:"
+    echo "  -n, --dry-run   Show what would be done without making changes"
+    echo "  -y              Skip confirmation prompt"
+    echo "  -h, --help      Show this message"
+    echo ""
+    exit 0
+}
+
 # ---- Parse options ----
 for arg in "$@"; do
     case "$arg" in
-        --help|-h)
-            echo ""
-            echo "Usage: ./cmd/install.sh [OPTIONS]"
-            echo ""
-            echo "Installs all configured apps and packages that are missing from the system."
-            echo ""
-            echo "Options:"
-            echo "  -n, --dry-run   Show what would be done without making changes"
-            echo "  -y              Skip confirmation prompt"
-            echo "  -h, --help      Show this message"
-            echo ""
-            exit 0
-            ;;
-        --dry-run|-n)
-            DRY_RUN=1
-            ;;
-        -y)
-            SKIP_PROMPT=1
-            ;;
+        -h|--help) usage ;;
+        -n|--dry-run) DRY_RUN=1 ;;
+        -y) SKIP_PROMPT=1 ;;
     esac
 done
 
