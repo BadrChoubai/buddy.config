@@ -108,7 +108,6 @@ help() {
     echo ""
     echo "Available actions:"
     echo "  install       Install and link environment configuration and packages"
-    echo "  uninstall     Uninstall packages and remove configuration"
     echo "  refresh       Reinstall or update configuration files only"
     echo "  help          Show this help message"
     echo ""
@@ -118,7 +117,6 @@ help() {
     echo ""
     echo "Examples:"
     echo "  $(basename "$0") install"
-    echo "  $(basename "$0") uninstall --dry-run"
     echo "  $(basename "$0") refresh --verbose"
     echo ""
     echo "Notes:"
@@ -129,7 +127,7 @@ help() {
 }
 
 # Execute the requested action
-if [[ "$action" == "install" || "$action" == "uninstall" || "$action" == "refresh" || "$action" == "help"  ]]; then
+if [[ "$action" == "install" || "$action" == "refresh" || "$action" == "help"  ]]; then
     prompt
     for n in "${not[@]}"; do
         log "WARN" "Not Modifying: $n"
@@ -139,9 +137,6 @@ if [[ "$action" == "install" || "$action" == "uninstall" || "$action" == "refres
         install)
             . "$script_dir/pre-install.sh"
             install
-            ;;
-        uninstall)
-            uninstall
             ;;
         refresh)
             refresh
