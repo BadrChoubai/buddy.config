@@ -9,6 +9,7 @@ Usage: ./setup.sh <command> [options]
 Installs and configures your dev environment.
 
 Available Commands:
+  clean             - Uninstall dependencies that were removed from configuration
   install           - Install developer environment
   version           - Print version
   help              - Print this message
