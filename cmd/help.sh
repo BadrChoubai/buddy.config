@@ -14,7 +14,7 @@ usage() {
     echo ""
     echo "Usage: ./setup_v2.sh <COMMAND> [OPTIONS]"
     echo ""
-    echo "Installs and configures your development environment"
+    echo "Provides utility commands for configuring your development environment"
     echo ""
     echo "Available Commands:"
 
