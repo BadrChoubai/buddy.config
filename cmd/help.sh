@@ -4,6 +4,7 @@ set -euo pipefail
 # Declare an associative array
 declare -A cmds_usage=(
     [clean]="Remove untracked apps and packages"
+    [dotfiles]="create symlinks for user dotfiles"
     [help]="Show help message"
     [version]="Show version info"
     [install]="Install configured apps and packages"
