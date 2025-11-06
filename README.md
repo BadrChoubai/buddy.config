@@ -24,10 +24,11 @@ Extensible setup script to quickly commission myself a personal computing device
 ```text
 Usage: ./setup_v2.sh <COMMAND> [OPTIONS]
 
-Installs and configures your development environment
+Provides utility commands for configuring your development environment
 
 Available Commands:
   clean           - Remove untracked apps and packages
+  dotfiles        - create symlinks for user dotfiles
   help            - Show help message
   install         - Install configured apps and packages
   version         - Show version info
