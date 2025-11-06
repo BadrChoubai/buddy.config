@@ -11,7 +11,7 @@ SKIP_PROMPT=0
 
 while [[ $# -gt 0 ]]; do
     case "$1" in
-        --help|-h)
+        -h|--help)
             SHOW_HELP=1
             CMD_ARGS+=("$1")
             shift
