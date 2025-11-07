@@ -1,0 +1,28 @@
+# This Docker Compose configuration sets up a simple observability stack
+# with Prometheus and Grafana alongside a sample API service.
+services:
+  api:
+    image: localhost:5000/hello-api-1.0.0
+    ports:
+      - "8080:8080"
+    networks:
+      - observability
+
+  prometheus:
+    image: prom/prometheus:latest
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./prometheus.development.yaml:/etc/prometheus/prometheus.yml
+    networks:
+      - observability
+
+  grafana:
+    image: grafana/grafana:latest
+    ports:
+      - "3000:3000"
+    networks:
+      - observability
+
+networks:
+  observability:
