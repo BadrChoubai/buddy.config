@@ -19,9 +19,14 @@ Extensible setup script to quickly commission myself a personal computing device
 
 3. **Follow the prompts to complete configuration.**
 
+> Additionally, you can make changes to `.env` to use non-default values for system
+> configuration
+
 ## Usage
 
 ```text
+INFO: Executing command: help
+
 Usage: ./setup_v2.sh <COMMAND> [OPTIONS]
 
 Provides utility commands for configuring your development environment
@@ -31,6 +36,7 @@ Available Commands:
   dotfiles        - create symlinks for user dotfiles
   help            - Show help message
   install         - Install configured apps and packages
+  templates       - initialize XDG_TEMPLATE_DIR
   version         - Show version info
 
 Options:

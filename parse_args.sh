@@ -1,4 +1,4 @@
-#!/bin/env bash
+#!/usr/bin/env bash
 set -euo pipefail
 
 # Default values
@@ -49,5 +49,5 @@ while [[ $# -gt 0 ]]; do
     esac
 done
 
-export action DRY_RUN FORCE SHOW_HELP SKIP_PROMPT CMD_ARGS
+export action DRY_RUN SHOW_HELP SKIP_PROMPT CMD_ARGS
 

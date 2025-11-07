@@ -6,6 +6,7 @@ declare -A cmds_usage=(
     [clean]="Remove untracked apps and packages"
     [dotfiles]="create symlinks for user dotfiles"
     [help]="Show help message"
+    [templates]="initialize XDG_TEMPLATE_DIR"
     [version]="Show version info"
     [install]="Install configured apps and packages"
 )

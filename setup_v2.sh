@@ -1,4 +1,4 @@
-#!/bin/env bash
+#!/usr/bin/env bash
 set -euo pipefail
 
 script_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" &> /dev/null && pwd)"
@@ -14,8 +14,9 @@ cmd_file="$cmd_dir/${action}.sh"
 if [[ ! -f "$cmd_file" ]]; then
     log "ERROR" "Unknown action: $action"
     log "INFO" "Available commands:"
-    find "$cmd_dir" -type f -name "*.sh" | sed 's#.*/##; s/\.sh$//'
+    find "$cmd_dir" -type f -name "*.sh" | sed 's#.*/##; s/\.sh$//' | sort
     exit 1
 fi
 
+log "INFO" "Executing command: $action"
 bash "$cmd_file" "${CMD_ARGS[@]}"
