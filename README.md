@@ -1,6 +1,8 @@
 # buddy.config
 
-Extensible setup script to quickly commission myself a personal computing device.
+**buddy.config** is an extensible setup script designed to quickly provision a personal computing environment. It helps you install packages, manage dotfiles, and configure your system reproducibly.
+
+---
 
 ## Getting Started
 
@@ -11,21 +13,27 @@ Extensible setup script to quickly commission myself a personal computing device
    cd buddy.config
    ```
 
+   > If you don’t have Git installed:
+   >
+   > ```sh
+   > sudo apt install git
+   > ```
+
 2. **Run the setup script:**
 
    ```sh
    ./setup.sh
    ```
 
-3. **Follow the prompts to complete configuration.**
+3. **Follow the prompts** to complete your configuration.
 
-> Additionally, you can make changes to `.env` to use non-default values for system
-> configuration
+> You can also edit the `.env` file to override default values for system configuration.
+
+---
 
 ## Usage
 
-```text
-
+```
 Usage: ./setup_v2.sh <COMMAND> [OPTIONS]
 
 Provides utility commands for configuring your development environment
@@ -33,49 +41,73 @@ Provides utility commands for configuring your development environment
 Available Commands:
   clean           - Remove untracked apps and packages
   config          - Print command-line configuration values
-  dotfiles        - create symlinks for user dotfiles
+  dotfiles        - Create symlinks for user dotfiles
   help            - Show help message
   install         - Install configured apps and packages
-  templates       - initialize XDG_TEMPLATE_DIR
+  templates       - Initialize XDG_TEMPLATE_DIR
   version         - Show version info
 
 Options:
-  -h, --help      - Print this message
-
+  -h, --help      - Show this message
 ```
-
-## Customization
-
-- **Package Management:**  
-  The setup script reads from two files:
-  - `.pkgs` for apt packages
-  - `.apps` for snap packages
-    To change which packages are installed, simply edit these files and add or remove package names as needed.
-
-- **Further Customization:**  
-  You can also modify the scripts or configuration files in this repository to further personalize the environment to your preferences. Review script variables and settings before execution.
-
-  Here is a detailed breakdown of how **buddy.config** tracks installed apps and packages using lockfile(s), and how it works under the hood:
-
-### Core Concepts
-
-- **Configuration files:**
-  - `.pkgs`: List of apt packages for installation
-  - `.apps`: List of snap apps for installation
-
-- **Lockfiles:**
-  - `.pkgs.lock`: Tracks which apt packages have been successfully installed
-  - `.apps.lock`: Tracks which snap apps have been successfully installed
 
 ---
 
-### Summary
+## Customization
 
-- **buddy.config** maintains a live record of what's installed via lockfiles (`.pkgs.lock`, `.apps.lock`).
-- On **install**, it adds newly installed items to the lockfile.
-- On **clean**, it removes items from the lockfile after uninstall.
-- This mechanism ensures reproducibility: you can reconstruct your system state, and always know which packages/apps have actually been provisioned versus what’s just desired.
+### Package Management
+
+* **APT packages:** `.pkgs`
+* **Snap apps:** `.apps`
+
+> Edit these files to add or remove packages/apps as needed. The setup script reads from these files during provisioning.
+
+### Environment Configuration
+
+* `.env` contains environment variables used by the commands.
+* Modify `.env` to adjust paths, repository URLs, or other configurable settings.
+
+### Further Customization
+
+* You can extend or modify the scripts to tailor the environment to your preferences.
+* Review script variables and command logic before execution to ensure desired behavior.
+
+---
+
+## Core Concepts
+
+### Configuration Files
+
+| File    | Purpose                                   |
+| ------- | ----------------------------------------- |
+| `.env`  | Environment variables used by the scripts |
+| `.pkgs` | List of APT packages to install           |
+| `.apps` | List of Snap applications to install      |
+
+### Lockfiles
+
+| File         | Purpose                                    |
+| ------------ | ------------------------------------------ |
+| `.pkgs.lock` | Tracks successfully installed APT packages |
+| `.apps.lock` | Tracks successfully installed Snap apps    |
+
+> Lockfiles ensure reproducibility. They allow you to track the actual installed state versus the desired packages/apps listed in `.pkgs` and `.apps`.
+
+---
+
+## How It Works
+
+* **Install Command:**
+  Installs packages and apps, and adds them to the corresponding lockfiles.
+
+* **Clean Command:**
+  Removes packages/apps and updates lockfiles accordingly.
+
+* This mechanism ensures your system state is **reproducible** and transparent.
+
+---
 
 ## Author
 
 Maintained by [BadrChoubai](https://github.com/BadrChoubai).
+
