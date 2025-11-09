@@ -39,17 +39,16 @@ Usage: ./setup_v2.sh <COMMAND> [OPTIONS]
 Provides utility commands for configuring your development environment
 
 Available Commands:
-  autocomplete    - Installs Bash autocomplete for setup.sh
   clean           - Remove untracked apps and packages
   config          - Print command-line configuration values
-  dotfiles        - create symlinks for user dotfiles
+  dotfiles        - Create symlinks for user dotfiles
   help            - Show help message
   install         - Install configured apps and packages
-  templates       - initialize XDG_TEMPLATE_DIR
+  templates       - Initialize XDG_TEMPLATE_DIR
   version         - Show version info
 
 Options:
-  -h, --help      - Print this message
+  -h, --help      - Show this message
 ```
 
 ---
@@ -58,20 +57,20 @@ Options:
 
 ### Package Management
 
-- **APT packages:** `.pkgs`
-- **Snap apps:** `.apps`
+* **APT packages:** `.pkgs`
+* **Snap apps:** `.apps`
 
 > Edit these files to add or remove packages/apps as needed. The setup script reads from these files during provisioning.
 
 ### Environment Configuration
 
-- `.env` contains environment variables used by the commands.
-- Modify `.env` to adjust paths, repository URLs, or other configurable settings.
+* `.env` contains environment variables used by the commands.
+* Modify `.env` to adjust paths, repository URLs, or other configurable settings.
 
 ### Further Customization
 
-- You can extend or modify the scripts to tailor the environment to your preferences.
-- Review script variables and command logic before execution to ensure desired behavior.
+* You can extend or modify the scripts to tailor the environment to your preferences.
+* Review script variables and command logic before execution to ensure desired behavior.
 
 ---
 
@@ -98,16 +97,17 @@ Options:
 
 ## How It Works
 
-- **Install Command:**
+* **Install Command:**
   Installs packages and apps, and adds them to the corresponding lockfiles.
 
-- **Clean Command:**
+* **Clean Command:**
   Removes packages/apps and updates lockfiles accordingly.
 
-- This mechanism ensures your system state is **reproducible** and transparent.
+* This mechanism ensures your system state is **reproducible** and transparent.
 
 ---
 
 ## Author
 
 Maintained by [BadrChoubai](https://github.com/BadrChoubai).
+
