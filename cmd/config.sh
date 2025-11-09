@@ -34,6 +34,7 @@ fi
 key="${POSITIONAL_ARGS[0]:-}"
 
 if [[ -z "$key" ]]; then
+    echo
     cat $dot_env
     exit 0
 fi

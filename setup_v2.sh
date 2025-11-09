@@ -24,5 +24,4 @@ if [[ ! -f "$cmd_file" ]]; then
     exit 1
 fi
 
-log "INFO" "Executing command: $action"
 . "$cmd_file" "${CMD_ARGS[@]}" "${POSITIONAL_ARGS[@]}"
