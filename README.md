@@ -25,7 +25,6 @@ Extensible setup script to quickly commission myself a personal computing device
 ## Usage
 
 ```text
-INFO: Executing command: help
 
 Usage: ./setup_v2.sh <COMMAND> [OPTIONS]
 
@@ -33,6 +32,7 @@ Provides utility commands for configuring your development environment
 
 Available Commands:
   clean           - Remove untracked apps and packages
+  config          - Print command-line configuration values
   dotfiles        - create symlinks for user dotfiles
   help            - Show help message
   install         - Install configured apps and packages
@@ -41,6 +41,7 @@ Available Commands:
 
 Options:
   -h, --help      - Print this message
+
 ```
 
 ## Customization
