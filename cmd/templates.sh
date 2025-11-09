@@ -51,6 +51,7 @@ install_templates() {
 
     (
         pushd "$TEMPLATES_DESTINATION"
+        log "INFO" "removing .git directory"
         rm -rf .git
         popd
     )

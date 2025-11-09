@@ -7,6 +7,12 @@ cmd_dir="$script_dir/cmd"
 . "$script_dir/parse_args.sh" "$@"
 . "$script_dir/log.sh"
 
+if [[ -f "$script_dir/.env" ]]; then
+    . "$script_dir/.env"
+else
+    log "WARN" "No .env file found at $script_dir/.env"
+fi
+
 # Determine command file
 cmd_file="$cmd_dir/${action}.sh"
 
@@ -19,4 +25,4 @@ if [[ ! -f "$cmd_file" ]]; then
 fi
 
 log "INFO" "Executing command: $action"
-bash "$cmd_file" "${CMD_ARGS[@]}"
+. "$cmd_file" "${CMD_ARGS[@]}" "${POSITIONAL_ARGS[@]}"

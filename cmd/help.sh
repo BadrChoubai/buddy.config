@@ -4,6 +4,7 @@ set -euo pipefail
 # Declare an associative array
 declare -A cmds_usage=(
     [clean]="Remove untracked apps and packages"
+    [config]="Print command-line configuration values"
     [dotfiles]="create symlinks for user dotfiles"
     [help]="Show help message"
     [templates]="initialize XDG_TEMPLATE_DIR"
