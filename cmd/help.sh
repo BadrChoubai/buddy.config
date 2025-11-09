@@ -3,6 +3,7 @@ set -euo pipefail
 
 # Declare an associative array
 declare -A cmds_usage=(
+    [autocomplete]="Installs Bash autocomplete for setup.sh"
     [clean]="Remove untracked apps and packages"
     [config]="Print command-line configuration values"
     [dotfiles]="create symlinks for user dotfiles"
