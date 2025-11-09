@@ -26,6 +26,7 @@ Removes apps and packages that are installed but no longer in configuration.
 
 Options:
   -n, --dry-run   Show what would be done without making changes
+  -y              Skip confirmation prompt
   -h, --help      Show this message
 
 EOF
