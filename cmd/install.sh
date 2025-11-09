@@ -35,7 +35,7 @@ for arg in "$@"; do
     case "$arg" in
         -h|--help) usage ;;
         -n|--dry-run) DRY_RUN=1 ;;
-        -y|--skip-prompt) SKIP_PROMPT=1 ;;
+        -y) SKIP_PROMPT=1 ;;
     esac
 done
 

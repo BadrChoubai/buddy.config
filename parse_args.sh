@@ -22,7 +22,7 @@ while [[ "$#" -gt 0 ]]; do
             CMD_ARGS+=("$1")
             shift
             ;;
-        -y|--skip-prompt)
+        -y)
             SKIP_PROMPT=1
             CMD_ARGS+=("$1")
             shift
@@ -31,6 +31,10 @@ while [[ "$#" -gt 0 ]]; do
             action="version"
             ACTION_SET=1
             shift
+            ;;
+        -*)
+            echo "Unknown flag: $1"
+            exit 1
             ;;
         *)
             if [[ $ACTION_SET -eq 0 ]]; then
