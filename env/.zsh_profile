@@ -31,10 +31,32 @@ dotenv() {
     fi
 }
 
+
 alias vim="$VIM"
 alias k="kubectl"
 alias k8s="microk8s"
-alias lt="tree -L 1"
+
+_lt() {
+    local treeignore=""
+
+        # If a .gitignore file exists, add its entries
+    if [ -f .gitignore ]; then
+        # Convert .gitignore entries to a pattern for tree -I
+        local gitignore_pattern
+        gitignore_pattern=$(grep -v '^\s*$\|^\s*#' .gitignore | tr '\n' '|' | sed 's/|$//')
+        if [ -n "$gitignore_pattern" ]; then
+            treeignore="$treeignore|$gitignore_pattern"
+        fi
+    fi
+
+
+    # Remove leading | if it exists
+    treeignore="${treeignore#|}"
+
+    tree -L 1 -I "$treeignore" "$@"
+}
+
+alias lt="_lt"
 
 appendPath /usr/local/go/bin
 appendPath $GOBIN
