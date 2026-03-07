@@ -21,23 +21,6 @@ return {
 
   config = function()
     ------------------------------------------------------------------
-    -- Formatting (IDE-style: format on save)
-    ------------------------------------------------------------------
-    require("conform").setup({
-      format_on_save = {
-        timeout_ms = 1000,
-        lsp_fallback = true,
-      },
-      formatters_by_ft = {
-        go = { "gofmt", "goimports" },
-        javascript = { "prettier" },
-        javascriptreact = { "prettier" },
-        typescript = { "prettier" },
-        typescriptreact = { "prettier" },
-      },
-    })
-
-    ------------------------------------------------------------------
     -- LSP capabilities (nvim-cmp aware)
     ------------------------------------------------------------------
     local capabilities = vim.tbl_deep_extend(

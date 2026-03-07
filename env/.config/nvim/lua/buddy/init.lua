@@ -7,13 +7,12 @@ local BuddyGroup = augroup('Buddy', {})
 
 local autocmd = vim.api.nvim_create_autocmd
 
-autocmd('BufEnter', {
-    group = BuddyGroup,
-    callback = function()
-            vim.cmd.colorscheme("monokai-pro")
-    end
+autocmd("VimEnter", {
+  group = BuddyGroup,
+  callback = function()
+    vim.cmd.colorscheme("monokai-pro")
+  end,
 })
-
 
 autocmd('LspAttach', {
     group = BuddyGroup,
@@ -30,4 +29,33 @@ autocmd('LspAttach', {
         vim.keymap.set("n", "[d", function() vim.diagnostic.goto_next() end, opts)
         vim.keymap.set("n", "]d", function() vim.diagnostic.goto_prev() end, opts)
     end
+})
+
+autocmd('FileType', {
+    group = BuddyGroup,
+    pattern = "markdown",
+    callback = function()
+        -- Writing mode overrides
+        vim.opt_local.wrap = true
+        vim.opt_local.linebreak = true
+        vim.opt_local.breakindent = true
+
+        vim.opt_local.spell = true
+        vim.opt_local.spelllang = { "en_us" }
+
+        vim.opt_local.textwidth = 80
+        vim.opt_local.formatoptions:append("t")
+
+        -- Remove code UI noise
+        vim.opt_local.colorcolumn = ""
+        vim.opt_local.signcolumn = "no"
+
+        -- Optional: friendlier line numbers for writing
+        vim.opt_local.relativenumber = false
+        vim.opt_local.number = true
+
+        vim.opt_local.cursorline = true
+        vim.opt_local.list = false
+        vim.opt_local.showmode = false
+  end,
 })
