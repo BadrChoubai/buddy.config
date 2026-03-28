@@ -1,11 +1,13 @@
+# ── Directories ────────────────────────────────────────────────
 export XDG_CONFIG_HOME=$HOME/.config
-export VIM="nvim"
-
 export GOPATH=$HOME/.local/go
 export GOBIN=$HOME/.local/bin
+
+# ── Editor ─────────────────────────────────────────────────────
+export VIM="nvim"
 export GIT_EDITOR=$VIM
 
-
+# ── PATH helpers ───────────────────────────────────────────────
 appendPath() {
     if [[ "$PATH" != *"$1"* ]]; then
         export PATH=$PATH:$1
@@ -18,9 +20,26 @@ prependPath() {
     fi
 }
 
+appendPath /usr/local/go/bin
+appendPath $GOBIN
+appendPath $HOME/.dotnet
+appendPath $HOME/.cargo/bin
+prependPath $HOME/.local/npm/bin
+
+# ── nvm ────────────────────────────────────────────────────────
+export NVM_DIR="$HOME/.config/nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
+
+# ── Aliases ────────────────────────────────────────────────────
+alias vim="$VIM"
+alias k="kubectl"
+alias k8s="microk8s"
+alias lt="_lt"
+
+# ── Functions ──────────────────────────────────────────────────
 dotenv() {
     local file_name="${1:-.env}"
-
     if [[ -f "$file_name" ]]; then
         set -o allexport
         source "$file_name"
@@ -31,38 +50,15 @@ dotenv() {
     fi
 }
 
-
-alias vim="$VIM"
-alias k="kubectl"
-alias k8s="microk8s"
-
 _lt() {
     local treeignore=""
-
-        # If a .gitignore file exists, add its entries
     if [ -f .gitignore ]; then
-        # Convert .gitignore entries to a pattern for tree -I
         local gitignore_pattern
         gitignore_pattern=$(grep -v '^\s*$\|^\s*#' .gitignore | tr '\n' '|' | sed 's/|$//')
         if [ -n "$gitignore_pattern" ]; then
             treeignore="$treeignore|$gitignore_pattern"
         fi
     fi
-
-
-    # Remove leading | if it exists
     treeignore="${treeignore#|}"
-
     tree -L 1 -I "$treeignore" "$@"
 }
-
-alias lt="_lt"
-
-appendPath /usr/local/go/bin
-appendPath $GOBIN
-appendPath $HOME/.dotnet
-prependPath $HOME/.local/npm/bin
-
-export NVM_DIR="$HOME/.config/nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion

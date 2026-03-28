@@ -38,6 +38,7 @@ mkdir -p "$config_dir"
 declare -A links=(
   ["$dotfiles/.config/alacritty"]="$config_dir/alacritty"
   ["$dotfiles/.config/nvim"]="$config_dir/nvim"
+  ["$dotfiles/.config/i3"]="$config_dir/i3"
   ["$dotfiles/.config/tmux"]="$config_dir/tmux"
   ["$dotfiles/.zshrc"]="$HOME/.zshrc"
   ["$dotfiles/.zsh_profile"]="$HOME/.zsh_profile"

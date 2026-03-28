@@ -13,8 +13,10 @@ return {
         lazy = false,
         opts = {},
         config = function()
-            require("monokai-pro")
-            ColorMyPencils()
+            require("monokai-pro").setup({
+                filter = "pro"
+            })
+            ColorMyPencils("monokai-pro")
         end
     },
 }
