@@ -9,5 +9,3 @@ source $ZSH/oh-my-zsh.sh
 
 source ~/.zsh_profile
 
-# opencode
-export PATH=/home/buddy/.opencode/bin:$PATH

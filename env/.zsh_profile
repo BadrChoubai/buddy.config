@@ -1,7 +1,7 @@
 # ── Directories ────────────────────────────────────────────────
 export XDG_CONFIG_HOME=$HOME/.config
-export GOPATH=$HOME/.local/go
-export GOBIN=$HOME/.local/bin
+export GOPATH=$HOME/go
+export GOBIN=$HOME/go/bin
 
 # ── Editor ─────────────────────────────────────────────────────
 export VIM="nvim"
@@ -22,9 +22,6 @@ prependPath() {
 
 appendPath /usr/local/go/bin
 appendPath $GOBIN
-appendPath $HOME/.dotnet
-appendPath $HOME/.cargo/bin
-prependPath $HOME/.local/npm/bin
 
 # ── nvm ────────────────────────────────────────────────────────
 export NVM_DIR="$HOME/.config/nvm"

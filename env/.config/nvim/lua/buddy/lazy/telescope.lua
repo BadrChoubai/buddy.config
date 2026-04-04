@@ -6,9 +6,14 @@ return {
     },
 
     config = function()
-        require('telescope').setup({})
+        require('telescope').setup({
+            defaults = {
+                file_ignore_patterns = { "go%.mod", "go%.sum", "vendor/", "node_modules/" }
+            }
+        })
 
         local builtin = require('telescope.builtin')
         vim.keymap.set('n', '<leader>pf', builtin.find_files, {})
+        vim.keymap.set('n', '<leader>ps', builtin.live_grep, {})
     end
 }
