@@ -44,3 +44,8 @@ vim.keymap.set("n", "<C-w><Left>",  "<cmd>vertical resize -10<CR>", { noremap = 
 vim.keymap.set("n", "<C-w><Right>", "<cmd>vertical resize +10<CR>", { noremap = true, silent = true, desc = "Grow vertical split" })
 vim.keymap.set("n", "<C-w><Up>",    "<cmd>resize +10<CR>",          { noremap = true, silent = true, desc = "Grow horizontal split" })
 vim.keymap.set("n", "<C-w><Down>",  "<cmd>resize -10<CR>",          { noremap = true, silent = true, desc = "Shrink horizontal split" })
+
+
+-- Set in lazy/telescope.lua
+-- vim.keymap.set('n', '<leader>pf', builtin.find_files, {})
+-- vim.keymap.set('n', '<leader>ps', builtin.live_grep, {})
