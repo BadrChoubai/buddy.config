@@ -2,8 +2,3 @@
     name = Badr Choubai
     email = badrchoubai@outlook.com
 
-[includeIf "gitdir:~/work/"]
-    path = ~/.gitconfig-gitlab
-
-[includeIf "gitdir:~/personal/"]
-    path = ~/.gitconfig-github
