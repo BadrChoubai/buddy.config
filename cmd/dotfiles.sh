@@ -42,7 +42,10 @@ declare -A links=(
   ["$dotfiles/.config/i3status"]="$config_dir/i3status"
   ["$dotfiles/.config/tmux"]="$config_dir/tmux"
   ["$dotfiles/.zshrc"]="$HOME/.zshrc"
-  ["$dotfiles/.zsh_profile"]="$HOME/.zsh_profile"
+  ["$dotfiles/.zshenv"]="$HOME/.zshenv"
+  ["$dotfiles/.gitconfig"]="$HOME/.gitconfig"
+  ["$dotfiles/.gitconfig-github"]="$HOME/.gitconfig-github"
+  ["$dotfiles/.gitconfig-gitlab"]="$HOME/.gitconfig-gitlab"
 )
 
 # Function to safely create symlink
