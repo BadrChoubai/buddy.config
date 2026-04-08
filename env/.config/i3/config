@@ -2,6 +2,7 @@
 # See https://i3wm.org/docs/userguide.html for reference
 
 set $mod Mod4
+exec_always setxkbmap -option ctrl:nocaps
 
 font pango:monospace 12
 
@@ -122,11 +123,9 @@ bindsym XF86AudioLowerVolume exec amixer set Master 5%-
 bindsym XF86AudioMute exec amixer set Master toggle
 
 # Brightness
+bindsym XF86MonBrightnessUp exec brightnessctl set 10%+
+bindsym XF86MonBrightnessDown exec brightnessctl set 10%-
 
-# Music
-bindsym XF86AudioPlay exec playerctl play-pause
-bindsym XF86AudioNext exec playerctl next
-bindsym XF86AudioPrev exec playerctl previous
 
 # switch displays
 mode "display" {
