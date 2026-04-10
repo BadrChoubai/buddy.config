@@ -4,9 +4,7 @@ set -euo pipefail
 script_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." &> /dev/null && pwd)"
 . "$script_dir/log.sh"
 
-dot_apps="$script_dir/.apps"
 dot_pkgs="$script_dir/.pkgs"
-installed_apps="$script_dir/.apps.lock"
 installed_pkgs="$script_dir/.pkgs.lock"
 
 # Default package manager if not set in .env
@@ -20,9 +18,9 @@ SKIP_PROMPT=${SKIP_PROMPT:-0}
 usage() {
     cat <<EOF
 
-Usage: ./setup_v2.sh clean [OPTIONS]
+Usage: ./provision.sh clean [OPTIONS]
 
-Removes apps and packages that are installed but no longer in configuration.
+Removes packages that are installed but no longer in configuration.
 
 Options:
   -n, --dry-run   Show what would be done without making changes

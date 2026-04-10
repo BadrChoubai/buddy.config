@@ -7,15 +7,13 @@ declare -A cmds_usage=(
     [config]="Print command-line configuration values"
     [dotfiles]="create symlinks for user dotfiles"
     [help]="Show help message"
-    [templates]="initialize XDG_TEMPLATE_DIR"
-    [version]="Show version info"
     [install]="Install configured apps and packages"
 )
 
 # --- Output help message ---
 usage() {
     echo ""
-    echo "Usage: ./setup_v2.sh <COMMAND> [OPTIONS]"
+    echo "Usage: ./provision.sh <COMMAND> [OPTIONS]"
     echo ""
     echo "Provides utility commands for configuring your development environment"
     echo ""
