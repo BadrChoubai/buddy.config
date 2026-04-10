@@ -51,5 +51,7 @@ vim.keymap.set("n", "<C-w><Down>", "<cmd>resize -10<CR>",
 
 
 -- Set in lazy/telescope.lua
--- vim.keymap.set('n', '<leader>pf', builtin.find_files, {})
--- vim.keymap.set('n', '<leader>pv', builtin.live_grep, {})
+-- Find Files
+-- vim.keymap.set('n', '<leader>ff', builtin.find_files, {})
+-- Find Verbatim
+-- vim.keymap.set('n', '<leader>fv', builtin.live_grep, {})
