@@ -6,7 +6,7 @@ exec_always setxkbmap -option ctrl:nocaps
 exec_always --no-startup-id ~/.fehbg
 
 
-font pango:monospace 12
+font pango:JetBrains Mono 20
 
 client.focused          #d45a01 #d45a01 #ffffff  #d45a01 #d45a01
 client.unfocused          #222222 #222222 #ffffff  #222222  #222222
