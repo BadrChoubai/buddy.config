@@ -18,6 +18,9 @@ exec --no-startup-id nm-applet
 floating_modifier $mod
 tiling_drag modifier titlebar
 
+# App assignments
+for_window [class="Thunar"] floating enable
+
 # Terminal
 bindsym $mod+Return exec --no-startup-id alacritty
 
@@ -63,6 +66,7 @@ bindsym $mod+7 workspace number $ws7
 bindsym $mod+8 workspace number $ws8
 bindsym $mod+9 workspace number $ws9
 
+bindsym $mod+Shift+0 move container to workspace number $ws0
 bindsym $mod+Shift+1 move container to workspace number $ws1
 bindsym $mod+Shift+2 move container to workspace number $ws2
 bindsym $mod+Shift+3 move container to workspace number $ws3
@@ -115,8 +119,3 @@ mode "display" {
 }
 bindsym $mod+Shift+d mode "display"
 
-# App assignments
-for_window [class="Thunar"] floating enable
-
-# App launchers
-bindsym $mod+F5 exec --no-startup-id spotify; workspace 0
