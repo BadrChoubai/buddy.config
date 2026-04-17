@@ -7,8 +7,8 @@ exec_always --no-startup-id ~/.fehbg
 
 font pango:JetBrains Mono 20
 
-client.focused          #d45a01 #d45a01 #ffffff  #d45a01 #d45a01
-client.unfocused          #222222 #222222 #ffffff  #222222  #222222
+client.focused          #205A40 #205A40 #ffffff  #205A40 #205A40
+client.unfocused          #000000 #000000 #ffffff  #000000 #000000
 
 # Startup
 exec --no-startup-id xss-lock --transfer-sleep-lock -- i3lock --nofork
@@ -103,6 +103,9 @@ bindsym XF86AudioMute exec amixer set Master toggle
 # Brightness
 bindsym XF86MonBrightnessUp exec brightnessctl set 10%+
 bindsym XF86MonBrightnessDown exec brightnessctl set 10%-
+
+# Screenshots
+bindsym Print exec --no-startup-id flameshot gui
 
 
 # switch displays
