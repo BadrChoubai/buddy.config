@@ -40,6 +40,7 @@ declare -A links=(
   ["$dotfiles/.config/nvim"]="$config_dir/nvim"
   ["$dotfiles/.config/i3"]="$config_dir/i3"
   ["$dotfiles/.config/i3status"]="$config_dir/i3status"
+  ["$dotfiles/.config/rofi"]="$config_dir/rofi"
   ["$dotfiles/.config/tmux"]="$config_dir/tmux"
   ["$dotfiles/.zshrc"]="$HOME/.zshrc"
   ["$dotfiles/.zshenv"]="$HOME/.zshenv"

@@ -5,8 +5,6 @@ vim.keymap.set("n", "Q", "<nop>")
 vim.keymap.set("n", "q", "<nop>")
 -- open explorer
 vim.keymap.set("n", "<leader>pv", vim.cmd.Ex)
--- format
-vim.keymap.set("n", "<leader>f", vim.lsp.buf.format)
 -- move highlighted lines up or down
 vim.keymap.set("v", "J", ":m '>+1<CR>gv=gv")
 vim.keymap.set("v", "K", ":m '<-2<CR>gv=gv")

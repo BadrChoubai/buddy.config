@@ -8,6 +8,8 @@ vim.opt.colorcolumn = "80"
 vim.opt.signcolumn = "yes"
 vim.opt.termguicolors = true
 vim.opt.scrolloff = 66
+vim.opt.statusline = "%F"
+vim.opt.laststatus = 2
 
 -- Splits
 vim.opt.splitright = true

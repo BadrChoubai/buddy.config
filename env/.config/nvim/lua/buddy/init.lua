@@ -8,10 +8,10 @@ local BuddyGroup = augroup('Buddy', {})
 local autocmd = vim.api.nvim_create_autocmd
 
 autocmd("VimEnter", {
-  group = BuddyGroup,
-  callback = function()
-    vim.cmd.colorscheme("monokai-pro")
-  end,
+    group = BuddyGroup,
+    callback = function()
+        vim.cmd.colorscheme("monokai-pro")
+    end,
 })
 
 autocmd('LspAttach', {
@@ -26,8 +26,6 @@ autocmd('LspAttach', {
         vim.keymap.set("n", "<leader>vrr", function() vim.lsp.buf.references() end, opts)
         vim.keymap.set("n", "<leader>vrn", function() vim.lsp.buf.rename() end, opts)
         vim.keymap.set("i", "<C-h>", function() vim.lsp.buf.signature_help() end, opts)
-        vim.keymap.set("n", "[d", function() vim.diagnostic.goto_next() end, opts)
-        vim.keymap.set("n", "]d", function() vim.diagnostic.goto_prev() end, opts)
     end
 })
 
@@ -57,5 +55,5 @@ autocmd('FileType', {
         vim.opt_local.cursorline = true
         vim.opt_local.list = false
         vim.opt_local.showmode = false
-  end,
+    end,
 })
