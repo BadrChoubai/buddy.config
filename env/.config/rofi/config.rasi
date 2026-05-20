@@ -1,0 +1,6 @@
+configuration {
+    modes: "window,run";
+    font: "mono 24";
+}
+
+@theme "Monokai"
