@@ -1,6 +1,14 @@
 configuration {
-    modes: "window,run";
+    modes: "window,drun,run";
     font: "mono 24";
+    terminal: "alacritty";
+    display-drun: "Apps";
+    display-run: "Run";
+    display-window: "Windows";
+    sorting-method: "fzf";
+
+    kb-mode-next: "Super+l";
+    kb-mode-previous: "Super+h";
 }
 
 @theme "Monokai"
