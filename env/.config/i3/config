@@ -107,18 +107,3 @@ bindsym XF86MonBrightnessDown exec brightnessctl set 10%-
 # Screenshots
 bindsym Print exec --no-startup-id flameshot gui
 
-
-# switch displays
-mode "display" {
-        # These bindings trigger as soon as you enter the launch mode
-        # Laptop
-        bindsym $mod+Shift+1 exec xrandr --output eDP-1 --primary --auto --output DP-4 --off; mode default
-        # Monitor
-        bindsym $mod+Shift+2 exec xrandr --output DP-4 --primary --auto --output eDP-1 --off; mode default
-
-        # back to normal: Enter or Escape or $mod+r
-        bindsym Return mode "default"
-        bindsym Escape mode "default"
-}
-bindsym $mod+Shift+d mode "display"
-

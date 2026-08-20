@@ -52,7 +52,7 @@ return {
                 "ts_ls",
                 "emmet_ls",
                 "cssls",
-                "html"
+                "html",
             },
 
             handlers = {
