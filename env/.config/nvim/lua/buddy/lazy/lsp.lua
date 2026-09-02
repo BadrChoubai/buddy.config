@@ -53,6 +53,7 @@ return {
                 "emmet_ls",
                 "cssls",
                 "html",
+                "asm_lsp"
             },
 
             handlers = {
@@ -112,6 +113,18 @@ return {
                         filetypes = { "html", "css", "scss", "javascriptreact", "typescriptreact" },
                     })
                 end,
+
+
+                ------------------------------------------------------------------
+                -- Assembly
+                ------------------------------------------------------------------
+                ["asm_lsp"] = function()
+                    require("lspconfig").asm_lsp.setup({
+                        capabilities = capabilities,
+                        filetypes = { "asm", "s", "S" },
+                    })
+                end,
+
             },
         })
 
