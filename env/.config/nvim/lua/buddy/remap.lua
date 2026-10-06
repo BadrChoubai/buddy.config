@@ -23,13 +23,37 @@ vim.keymap.set("n", "<C-u>", "<C-u>zz")
 --
 -- Explorer in vertical split (right)
 vim.keymap.set("n", "<leader>|", "<cmd>vsplit | Ex<CR>", { silent = true })
+-- Terminal in vertical split (bottom)
+vim.keymap.set("n", "<leader>t|", "<cmd>vsplit | terminal<CR>", { silent = true })
 -- Explorer in horizontal split (bottom)
 vim.keymap.set("n", "<leader>%", "<cmd>split | Ex<CR>", { silent = true })
+-- Terminal in horizontal split (bottom)
+vim.keymap.set("n", "<leader>t%", "<cmd>split | terminal<CR>", { silent = true })
+--
+vim.keymap.set("t", "<Esc>", [[<C-\><C-n>]], {
+    noremap = true,
+    silent = true,
+    desc = "Exit terminal mode",
+})
 
 vim.keymap.set("n", "<leader>fb",
     "<cmd>Telescope buffers ignore_current_buffer=true sort_mru=true<CR>",
     { noremap = true, silent = true, desc = "Buffers" }
 )
+
+local function tnoremap(lhs, rhs, desc)
+    vim.keymap.set("t", lhs, [[<C-\><C-n>]] .. rhs, {
+        noremap = true,
+        silent = true,
+        desc = desc,
+    })
+end
+
+tnoremap("<C-w><Left>", "<C-w><Left>", "Move to left split")
+tnoremap("<C-w><Right>", "<C-w><Right>", "Move to right split")
+tnoremap("<C-w><Up>", "<C-w><Up>", "Move to upper split")
+tnoremap("<C-w><Down>", "<C-w><Down>", "Move to lower split")
+
 
 -- Diagnostics (LSP errors/warnings)
 vim.keymap.set("n", "<leader>e", vim.diagnostic.open_float, { noremap = true, silent = true, desc = "Show error" })
