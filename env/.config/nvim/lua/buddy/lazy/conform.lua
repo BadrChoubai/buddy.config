@@ -12,7 +12,7 @@ return {
 
                 return {
                     timeout_ms = 1000,
-                    lsp_fallback = true,
+                    lsp_format = "fallback",
                 }
             end,
 
@@ -24,7 +24,7 @@ return {
             },
         })
 
-        vim.keymap.set("n", "<leader>f", function()
+        vim.keymap.set("n", "<leader>cf", function()
             require("conform").format()
         end)
     end,

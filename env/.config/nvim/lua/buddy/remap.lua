@@ -57,18 +57,16 @@ tnoremap("<C-w><Down>", "<C-w><Down>", "Move to lower split")
 
 -- Diagnostics (LSP errors/warnings)
 vim.keymap.set("n", "<leader>e", vim.diagnostic.open_float, { noremap = true, silent = true, desc = "Show error" })
-vim.keymap.set("n", "[d", vim.diagnostic.goto_prev, { noremap = true, silent = true, desc = "Previous diagnostic" })
-vim.keymap.set("n", "]d", vim.diagnostic.goto_next, { noremap = true, silent = true, desc = "Next diagnostic" })
 vim.keymap.set("n", "<leader>dq", vim.diagnostic.setloclist,
     { noremap = true, silent = true, desc = "Diagnostics to loclist" })
 
 -- Resize splits
-vim.keymap.set("n", "<C-w><Left>", "<cmd>vertical resize -10<CR>",
+vim.keymap.set("n", "<C-w><S-Left>", "<cmd>vertical resize -10<CR>",
     { noremap = true, silent = true, desc = "Shrink vertical split" })
-vim.keymap.set("n", "<C-w><Right>", "<cmd>vertical resize +10<CR>",
+vim.keymap.set("n", "<C-w><S-Right>", "<cmd>vertical resize +10<CR>",
     { noremap = true, silent = true, desc = "Grow vertical split" })
-vim.keymap.set("n", "<C-w><Up>", "<cmd>resize +10<CR>", { noremap = true, silent = true, desc = "Grow horizontal split" })
-vim.keymap.set("n", "<C-w><Down>", "<cmd>resize -10<CR>",
+vim.keymap.set("n", "<C-w><S-Up>", "<cmd>resize +10<CR>", { noremap = true, silent = true, desc = "Grow horizontal split" })
+vim.keymap.set("n", "<C-w><S-Down>", "<cmd>resize -10<CR>",
     { noremap = true, silent = true, desc = "Shrink horizontal split" })
 
 
