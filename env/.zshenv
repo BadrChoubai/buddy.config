@@ -9,6 +9,7 @@ export VISUAL="nvim"
 export GIT_EDITOR="nvim"
 
 # ── PATH ───────────────────────────────────────────────────────
-[[ -d /usr/local/go/bin ]] && export PATH=$PATH:/usr/local/go/bin
-(( $+commands[go] )) && export PATH=$PATH:$(go env GOPATH)/bin
+typeset -U path  # drop duplicate entries
+[[ -d /usr/local/go/bin ]] && path+=/usr/local/go/bin
+[[ -d "$HOME/go/bin" ]] && path+="$HOME/go/bin"
 [[ -f "$HOME/.cargo/env" ]] && . "$HOME/.cargo/env"

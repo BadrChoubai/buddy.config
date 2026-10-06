@@ -2,7 +2,7 @@ export ZSH="$HOME/.oh-my-zsh"
 
 ZSH_THEME="robbyrussell"
 
-plugins=(git asdf kubectl tmux)
+plugins=(git kubectl tmux)
 
 [[ -f "$ZSH/oh-my-zsh.sh" ]] && source "$ZSH/oh-my-zsh.sh"
 
@@ -10,7 +10,6 @@ plugins=(git asdf kubectl tmux)
 alias vim="nvim"
 alias k="kubectl"
 alias k8s="microk8s"
-alias lt="_lt"
 
 # ── Functions ──────────────────────────────────────────────────
 dotenv() {
@@ -25,29 +24,8 @@ dotenv() {
     fi
 }
 
-_lt() {
-    local treeignore=""
-    if [ -f .gitignore ]; then
-        local gitignore_pattern
-        gitignore_pattern=$(grep -v '^\s*$\|^\s*#' .gitignore | tr '\n' '|' | sed 's/|$//')
-        if [ -n "$gitignore_pattern" ]; then
-            treeignore="$treeignore|$gitignore_pattern"
-        fi
-    fi
-    treeignore="${treeignore#|}"
-    tree -L 1 -I "$treeignore" "$@"
-}
-
-appendPath() {
-    if [[ "$PATH" != *"$1"* ]]; then
-        export PATH=$PATH:$1
-    fi
-}
-
-prependPath() {
-    if [[ "$PATH" != *"$1"* ]]; then
-        export PATH=$1:$PATH
-    fi
+lt() {
+    tree -L 1 --gitignore "$@"
 }
 
 
