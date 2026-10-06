@@ -50,14 +50,3 @@ autocmd('FileType', {
         vim.opt_local.showmode = false
     end,
 })
-
-autocmd('FileType', {
-    group = BuddyGroup,
-    pattern = "asm",
-    callback = function()
-        vim.opt_local.tabstop = 2
-        vim.opt_local.shiftwidth = 2
-        vim.opt_local.softtabstop = 2
-        vim.opt_local.expandtab = true
-    end,
-})

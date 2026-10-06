@@ -6,7 +6,7 @@ return {
             -- `main` branch: setup() only takes install_dir; parsers are
             -- installed explicitly (async, no-op if already installed)
             require("nvim-treesitter").install({
-                "vimdoc", "javascript", "go", "lua", "jsdoc", "bash", "c_sharp", "asm",
+                "vimdoc", "javascript", "go", "lua", "jsdoc", "bash", "c_sharp",
             })
 
             local excluded = { html = true }

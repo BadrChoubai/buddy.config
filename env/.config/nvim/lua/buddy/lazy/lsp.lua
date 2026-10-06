@@ -88,11 +88,6 @@ return {
             filetypes = { "html", "css", "scss", "javascriptreact", "typescriptreact" },
         })
 
-        -- Assembly
-        vim.lsp.config("asm_lsp", {
-            filetypes = { "asm" },
-        })
-
         -- Installs servers and calls vim.lsp.enable() on them (automatic_enable)
         require("mason-lspconfig").setup({
             ensure_installed = {
@@ -101,7 +96,6 @@ return {
                 "emmet_ls",
                 "cssls",
                 "html",
-                "asm_lsp"
             },
         })
 
