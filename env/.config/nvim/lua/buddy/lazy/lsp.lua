@@ -46,6 +46,54 @@ return {
         require("mason").setup()
         require("fidget").setup({})
 
+        ------------------------------------------------------------------
+        -- Server configs (vim.lsp.config, merged on top of nvim-lspconfig)
+        ------------------------------------------------------------------
+        -- Default for every server
+        vim.lsp.config("*", {
+            capabilities = capabilities,
+        })
+
+        -- Go
+        vim.lsp.config("gopls", {
+            settings = {
+                gopls = {
+                    gofumpt = true,
+                    analyses = {
+                        unusedparams = true,
+                        nilness = true,
+                    },
+                    staticcheck = true,
+                },
+            },
+        })
+
+        -- HTML / CSS
+        vim.lsp.config("html", {
+            settings = {
+                html = {
+                    format = { wrapLineLength = 120 },
+                    hover = { documentation = true, references = true },
+                },
+            },
+        })
+        vim.lsp.config("cssls", {
+            settings = {
+                css = { validate = true },
+                scss = { validate = true },
+                less = { validate = true },
+            },
+        })
+        vim.lsp.config("emmet_ls", {
+            filetypes = { "html", "css", "scss", "javascriptreact", "typescriptreact" },
+        })
+
+        -- Assembly
+        vim.lsp.config("asm_lsp", {
+            filetypes = { "asm" },
+        })
+
+        -- Installs servers and calls vim.lsp.enable() on them (automatic_enable)
         require("mason-lspconfig").setup({
             ensure_installed = {
                 "gopls",
@@ -54,77 +102,6 @@ return {
                 "cssls",
                 "html",
                 "asm_lsp"
-            },
-
-            handlers = {
-                -- Default handler
-                function(server_name)
-                    require("lspconfig")[server_name].setup({
-                        capabilities = capabilities,
-                    })
-                end,
-
-                ------------------------------------------------------------------
-                -- Go
-                ------------------------------------------------------------------
-                ["gopls"] = function()
-                    require("lspconfig").gopls.setup({
-                        capabilities = capabilities,
-                        settings = {
-                            gopls = {
-                                gofumpt = true,
-                                analyses = {
-                                    unusedparams = true,
-                                    nilness = true,
-                                },
-                                staticcheck = true,
-                            },
-                        },
-                    })
-                end,
-
-                ------------------------------------------------------------------
-                -- JavaScript / TypeScript
-                ------------------------------------------------------------------
-                ["html"] = function()
-                    require("lspconfig").html.setup({
-                        capabilities = capabilities,
-                        settings = {
-                            html = {
-                                format = { wrapLineLength = 120 },
-                                hover = { documentation = true, references = true },
-                            },
-                        },
-                    })
-                end,
-                ["cssls"] = function()
-                    require("lspconfig").cssls.setup({
-                        capabilities = capabilities,
-                        settings = {
-                            css = { validate = true },
-                            scss = { validate = true },
-                            less = { validate = true },
-                        },
-                    })
-                end,
-                ["emmet_ls"] = function()
-                    require("lspconfig").emmet_ls.setup({
-                        capabilities = capabilities,
-                        filetypes = { "html", "css", "scss", "javascriptreact", "typescriptreact" },
-                    })
-                end,
-
-
-                ------------------------------------------------------------------
-                -- Assembly
-                ------------------------------------------------------------------
-                ["asm_lsp"] = function()
-                    require("lspconfig").asm_lsp.setup({
-                        capabilities = capabilities,
-                        filetypes = { "asm", "s", "S" },
-                    })
-                end,
-
             },
         })
 

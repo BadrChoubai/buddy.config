@@ -3,20 +3,10 @@ return {
         "nvim-treesitter/nvim-treesitter",
         build = ":TSUpdate",
         config = function()
-            require("nvim-treesitter").setup({
-                -- A list of parser names, or "all"
-                ensure_installed = {
-                    "vimdoc", "javascript", "go", "lua", "jsdoc", "bash", "c_sharp",
-                },
-
-                -- Install parsers synchronously (only applied to `ensure_installed`)
-                sync_install = false,
-
-                -- Automatically install missing parsers when entering buffer
-                -- Recommendation: set to false if you don"t have `tree-sitter` CLI installed locally
-                auto_install = true,
-
-                indent = { enable = true },
+            -- `main` branch: setup() only takes install_dir; parsers are
+            -- installed explicitly (async, no-op if already installed)
+            require("nvim-treesitter").install({
+                "vimdoc", "javascript", "go", "lua", "jsdoc", "bash", "c_sharp", "asm",
             })
 
             local excluded = { html = true }
@@ -35,7 +25,9 @@ return {
                         return
                     end
 
-                    pcall(vim.treesitter.start)
+                    if pcall(vim.treesitter.start) then
+                        vim.bo[args.buf].indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
+                    end
                 end,
             })
 

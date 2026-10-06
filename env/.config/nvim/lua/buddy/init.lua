@@ -7,13 +7,6 @@ local BuddyGroup = augroup('Buddy', {})
 
 local autocmd = vim.api.nvim_create_autocmd
 
-autocmd("VimEnter", {
-    group = BuddyGroup,
-    callback = function()
-        vim.cmd.colorscheme("monokai-pro")
-    end,
-})
-
 autocmd('LspAttach', {
     group = BuddyGroup,
     callback = function(e)
