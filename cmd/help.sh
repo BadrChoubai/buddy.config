@@ -5,7 +5,7 @@ set -euo pipefail
 declare -A cmds_usage=(
     [clean]="Remove untracked apps and packages"
     [config]="Print command-line configuration values"
-    [dotfiles]="create symlinks for user dotfiles"
+    [dotfiles]="Symlink user dotfiles with GNU Stow"
     [help]="Show help message"
     [install]="Install configured apps and packages"
 )
