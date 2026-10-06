@@ -47,6 +47,5 @@ autocmd('FileType', {
 
         vim.opt_local.cursorline = true
         vim.opt_local.list = false
-        vim.opt_local.showmode = false
     end,
 })

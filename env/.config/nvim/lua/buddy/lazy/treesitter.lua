@@ -7,6 +7,7 @@ return {
             -- installed explicitly (async, no-op if already installed)
             require("nvim-treesitter").install({
                 "vimdoc", "javascript", "go", "lua", "jsdoc", "bash", "c_sharp",
+                "typescript", "tsx", "html", "css", "templ",
             })
 
             local excluded = { html = true }

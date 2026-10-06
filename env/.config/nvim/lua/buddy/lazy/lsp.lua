@@ -88,6 +88,19 @@ return {
             filetypes = { "html", "css", "scss", "javascriptreact", "typescriptreact" },
         })
 
+        -- Lua (Neovim config)
+        vim.lsp.config("lua_ls", {
+            settings = {
+                Lua = {
+                    runtime = { version = "LuaJIT" },
+                    workspace = {
+                        checkThirdParty = false,
+                        library = { vim.env.VIMRUNTIME },
+                    },
+                },
+            },
+        })
+
         -- Installs servers and calls vim.lsp.enable() on them (automatic_enable)
         require("mason-lspconfig").setup({
             ensure_installed = {
@@ -96,6 +109,7 @@ return {
                 "emmet_ls",
                 "cssls",
                 "html",
+                "lua_ls",
             },
         })
 
