@@ -74,14 +74,62 @@ return {
                 },
             }
 
-            -- Starts `make debug-stub` (add this target to your Makefile — see below)
-            -- in a background job, then launches the DAP session a moment later
-            -- so nvim-dap's GDB client is the one attaching, not your tmux one.
+            -- Starts `make debug-stub` in a background job, waits for the
+            -- gdbstub to accept connections on :1234, then launches the DAP
+            -- session so nvim-dap's GDB client is the one attaching.
+            -- The Makefile needs a target that runs QEMU without a client, e.g.:
+            --   debug-stub: $(TARGET)
+            --   	qemu-arm -g 1234 ./$(TARGET)
+            local qemu_job = nil
+
+            local function stop_qemu()
+                if qemu_job then
+                    vim.fn.jobstop(qemu_job)
+                    qemu_job = nil
+                end
+            end
+
+            -- qemu-user's gdbstub accepts exactly one connection, so a test
+            -- connect would use it up; look for a LISTEN socket instead
+            -- (port 1234 = 04D2, state 0A = LISTEN).
+            local function stub_listening()
+                for _, path in ipairs({ "/proc/net/tcp", "/proc/net/tcp6" }) do
+                    local f = io.open(path, "r")
+                    if f then
+                        local data = f:read("*a")
+                        f:close()
+                        if data:find(":04D2 [%x:]+ 0A ") then
+                            return true
+                        end
+                    end
+                end
+                return false
+            end
+
+            local function wait_for_stub(attempts, on_ready)
+                if stub_listening() then
+                    on_ready()
+                elseif attempts > 1 and qemu_job then
+                    vim.defer_fn(function() wait_for_stub(attempts - 1, on_ready) end, 100)
+                else
+                    stop_qemu()
+                    vim.notify("QEMU gdbstub not listening on :1234", vim.log.levels.ERROR)
+                end
+            end
+
             local function start_qemu_and_debug()
-                vim.fn.jobstart("make debug-stub", { cwd = vim.fn.getcwd() })
-                vim.defer_fn(function()
-                    dap.continue()
-                end, 500)
+                stop_qemu()
+                qemu_job = vim.fn.jobstart("make debug-stub", {
+                    cwd = vim.fn.getcwd(),
+                    on_exit = function() qemu_job = nil end,
+                })
+                if qemu_job <= 0 then
+                    qemu_job = nil
+                    vim.notify("Failed to run `make debug-stub`", vim.log.levels.ERROR)
+                    return
+                end
+                -- Retry for up to ~5s (100ms apart)
+                wait_for_stub(50, dap.continue)
             end
 
             vim.keymap.set("n", "<leader>da", start_qemu_and_debug, { desc = "Start QEMU stub + attach debugger" })
@@ -95,6 +143,7 @@ return {
             vim.keymap.set("n", "<leader>dt", function()
                 dap.terminate()
                 dapui.close()
+                stop_qemu()
             end)
 
             -- Start / Continue
@@ -117,10 +166,12 @@ return {
 
             dap.listeners.before.event_terminated["dapui_config"] = function()
                 dapui.close()
+                stop_qemu()
             end
 
             dap.listeners.before.event_exited["dapui_config"] = function()
                 dapui.close()
+                stop_qemu()
             end
         end,
     },
