@@ -4,7 +4,7 @@ ZSH_THEME="robbyrussell"
 
 plugins=(git asdf kubectl tmux)
 
-source $ZSH/oh-my-zsh.sh
+[[ -f "$ZSH/oh-my-zsh.sh" ]] && source "$ZSH/oh-my-zsh.sh"
 
 # ── Aliases ────────────────────────────────────────────────────
 alias vim="nvim"

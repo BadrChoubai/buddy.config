@@ -9,6 +9,6 @@ export VISUAL="nvim"
 export GIT_EDITOR="nvim"
 
 # ── PATH ───────────────────────────────────────────────────────
-export PATH=$PATH:/usr/local/go/bin
-export PATH=$PATH:$(go env GOPATH)/bin
-. "$HOME/.cargo/env"
+[[ -d /usr/local/go/bin ]] && export PATH=$PATH:/usr/local/go/bin
+(( $+commands[go] )) && export PATH=$PATH:$(go env GOPATH)/bin
+[[ -f "$HOME/.cargo/env" ]] && . "$HOME/.cargo/env"

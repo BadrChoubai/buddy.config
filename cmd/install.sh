@@ -5,19 +5,17 @@ script_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." &> /dev/null && pwd)"
 . "$script_dir/log.sh"
 
 dot_pkgs="$script_dir/.pkgs"
-installed_pkgs="$script_dir/.pkgs.lock"
 
 # Default package manager if not set in .env
-: "${PACKAGE_MANAGER:=apt}"
+: "${PACKAGE_MANAGER:=dnf}"
 PM="$PACKAGE_MANAGER"
-log "INFO" "Using package manager: $PM"
 
 usage() {
     cat <<EOF
 
-Usage: ./setup_v2.sh install [OPTIONS]
+Usage: ./provision.sh install [OPTIONS]
 
-Installs all configured apps and packages that are missing from the system.
+Installs all configured packages that are missing from the system.
 
 Options:
   -n, --dry-run   Show what would be done without making changes
@@ -37,35 +35,21 @@ for arg in "$@"; do
     esac
 done
 
-# ---- Prepare lockfiles and package lists ----
-touch "$dot_pkgs" "$installed_pkgs"
-
-TO_INSTALL_PKGS=$(comm -13 <(sort "$installed_pkgs") <(grep -Ev '^\s*($|#)' "$dot_pkgs" | sort))
-
-if [[ -z "$TO_INSTALL_PKGS" ]]; then
-    log "INFO" "Everything is already installed. Nothing to do."
-    exit 0
-fi
-
-log "INFO" "The following will be installed:"
-[[ -n "$TO_INSTALL_PKGS" ]] && echo "$TO_INSTALL_PKGS" | sed 's/^/  - Package: /'
-
-# ---- Prompt for confirmation ----
-if [[ "${SKIP_PROMPT:-0}" == "0" ]]; then
-    read -p "Continue? (y/n) " CONFIRM
-    [[ ! "$CONFIRM" =~ ^[Yy]$ ]] && { log "INFO" "Installation aborted."; exit 0; }
-fi
+log "INFO" "Using package manager: $PM"
 
 # ---- Define package manager commands ----
 case "$PM" in
     apt)
-        install_pkg_cmd() { sudo apt install -y "$1"; }
+        is_installed() { dpkg -s "$1" &> /dev/null; }
+        install_pkgs() { sudo apt install -y "$@"; }
         ;;
     dnf)
-        install_pkg_cmd() { sudo dnf install -y "$1"; }
-	;;
+        is_installed() { rpm -q "$1" &> /dev/null; }
+        install_pkgs() { sudo dnf install -y "$@"; }
+        ;;
     brew)
-        install_pkg_cmd() { brew install "$1"; }
+        is_installed() { brew list "$1" &> /dev/null; }
+        install_pkgs() { brew install "$@"; }
         ;;
     *)
         log "ERROR" "Unsupported PACKAGE_MANAGER: $PM"
@@ -73,50 +57,37 @@ case "$PM" in
         ;;
 esac
 
-# ---- Install function ----
-install_missing() {
-    local to_install="$1"
-    local install_cmd="$2"
-    local item_type="$3"
-    local lock_file="$4"
-
-    [[ -z "$to_install" ]] && { log "INFO" "No $item_type to install."; return; }
-
-    local installed_items=()
-
-    while IFS= read -r item; do
-        [[ -z "$item" ]] && continue
-        if [[ "${DRY_RUN:-0}" == "1" ]]; then
-            log "INFO" "[DRY RUN] Would install $item ($item_type)"
-        else
-            log "INFO" "Installing $item ($item_type)..."
-            if $install_cmd "$item"; then
-                installed_items+=("$item")
-                log "INFO" "Installed $item ($item_type)."
-            else
-                log "ERROR" "Failed to install $item ($item_type)."
-            fi
-        fi
-    done <<< "$to_install"
-
-    # Update lockfile once
-    if [[ "${DRY_RUN:-0}" != "1" && ${#installed_items[@]} -gt 0 ]]; then
-        printf "%s\n" "${installed_items[@]}" >> "$lock_file"
-    fi
-}
-
-log "INFO" "Starting installation..."
-
-# ---- Install packages and apps ----
-install_missing "$TO_INSTALL_PKGS" install_pkg_cmd "package" "$installed_pkgs"
-
-# ---- Finalize ----
-if [[ "${DRY_RUN:-0}" != "1" ]]; then
-    sort -u -o "$installed_pkgs" "$installed_pkgs"
-    log "INFO" "Lock files updated."
-else
-    log "INFO" "[DRY RUN] Lock files not updated."
+if [[ ! -f "$dot_pkgs" ]]; then
+    log "ERROR" "Package list not found at $dot_pkgs"
+    exit 1
 fi
 
-log "INFO" "Installation complete."
+# ---- Find missing packages ----
+to_install=()
+while IFS= read -r pkg; do
+    is_installed "$pkg" || to_install+=("$pkg")
+done < <(grep -Ev '^\s*($|#)' "$dot_pkgs")
 
+if [[ ${#to_install[@]} -eq 0 ]]; then
+    log "INFO" "Everything is already installed. Nothing to do."
+    exit 0
+fi
+
+log "INFO" "The following will be installed:"
+printf "  - %s\n" "${to_install[@]}"
+
+if [[ "${DRY_RUN:-0}" == "1" ]]; then
+    log "INFO" "[DRY RUN] Nothing installed."
+    exit 0
+fi
+
+# ---- Prompt for confirmation ----
+if [[ "${SKIP_PROMPT:-0}" == "0" ]]; then
+    read -rp "Continue? (y/n) " CONFIRM
+    [[ ! "$CONFIRM" =~ ^[Yy]$ ]] && { log "INFO" "Installation aborted."; exit 0; }
+fi
+
+# ---- Install in a single transaction ----
+install_pkgs "${to_install[@]}"
+
+log "INFO" "Installation complete."

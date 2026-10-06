@@ -3,7 +3,6 @@ set -euo pipefail
 
 # Declare an associative array
 declare -A cmds_usage=(
-    [clean]="Remove untracked apps and packages"
     [config]="Print command-line configuration values"
     [dotfiles]="Symlink user dotfiles with GNU Stow"
     [help]="Show help message"

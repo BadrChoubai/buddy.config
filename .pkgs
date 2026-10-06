@@ -3,7 +3,7 @@ make
 tree
 tmux
 zsh
-neovim
+# neovim: installed manually to /usr/local, automate later
 i3
 podman
 jetbrains-mono-fonts
